@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTodoList,
@@ -20,8 +20,36 @@ function ToDoList() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
 
+  useEffect(() => {
+    if (todoList.length > 0) {
+      localStorage.setItem("todolist", JSON.stringify(todoList));
+    }
+  }, [todoList]);
+
+  useEffect(() => {
+    const localTodoList = JSON.parse(localStorage.getItem("todoList"));
+    if (localTodoList) {
+      dispatch(setTodoList(localTodoList));
+    }
+  }, []);
+
   const handleClick = () => {
-    setShowModal(!showModal)
+    setShowModal(!showModal);
+  };
+
+  const handleAddTodo = (task) => {
+    if (task.trim().length === 0) {
+      alert("Please enter a task");
+    } else {
+      dispatch(
+        addTodo({
+          task: task,
+          id: Date.now(),
+        })
+      );
+      setNewTask("");
+      setShowModal(true);
+    }
   };
 
   return (
@@ -33,6 +61,7 @@ function ToDoList() {
               type="text"
               className="border p-2 rounded-md outline-none mb-8"
               value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
               placeholder={
                 currentTodo ? "Update your task here." : "Enter your task here"
               }
