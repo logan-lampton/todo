@@ -20,6 +20,7 @@ function ToDoList() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
 
+  console.log(newTask);
   useEffect(() => {
     if (todoList.length > 0) {
       localStorage.setItem("todolist", JSON.stringify(todoList));
@@ -82,7 +83,9 @@ function ToDoList() {
                   </button>
                   <button
                     className="bg-sunsetOrange rounded-md text-white py-3 px-10"
-                    onClick={handleClick}
+                    onClick={() => {
+                      handleAddTodo(newTask), handleClick;
+                    }}
                   >
                     Add
                   </button>
@@ -93,11 +96,24 @@ function ToDoList() {
         </div>
       )}
       <button
-        className="bg-sunsetOrange text-center text-white py-3 px-10 rounded-md"
+        className="bg-sunsetOrange text-center text-white py-3 px-10 rounded-md mt-8"
         onClick={handleClick}
       >
         Add task
       </button>
+      <div className="flex">
+        {todoList.length === 0 ? (
+          <>
+            <div className="mt-8">
+              <div>
+                <p>✅ Awesome! You did all the tasks!</p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }
