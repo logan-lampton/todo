@@ -1,11 +1,11 @@
 import Header from "./components/Header"
-import ToDoList from "./components/ToDoList";
+import TodoList from "./components/TodoList";
 
 function App() {
   return (
     <div className="App font-Poppins container py-16 px-6 min-h-screen mx-auto">
       <Header />
-      <ToDoList />
+      <TodoList />
     </div>
   );
 }

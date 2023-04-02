@@ -15,11 +15,13 @@ function ToDoList() {
   const dispatch = useDispatch();
   const todoList = useSelector((state) => state.todo.todoList);
   const sortCriteria = useSelector((state) => state.todo.sortCriteria);
+
   const [showModal, setShowModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [newTask, setNewTask] = useState("");
 
   const handleClick = () => {
-    setShowModal(true);
+    setShowModal(!showModal)
   };
 
   return (
@@ -29,10 +31,35 @@ function ToDoList() {
           <div className="bg-white p-8 rounded-md">
             <input
               type="text"
+              className="border p-2 rounded-md outline-none mb-8"
+              value={newTask}
               placeholder={
                 currentTodo ? "Update your task here." : "Enter your task here"
               }
             />
+            <div className="flex justify-between">
+              {currentTodo ? (
+                <>
+                  <button>Cancel</button>
+                  <button>Save</button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="bg-Tangaroa rounded-md text-white py-3 px-10"
+                    onClick={handleClick}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-sunsetOrange rounded-md text-white py-3 px-10"
+                    onClick={handleClick}
+                  >
+                    Add
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
