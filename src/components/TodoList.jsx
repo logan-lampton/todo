@@ -26,7 +26,7 @@ function TodoList() {
     }
   }, [todoList]);
 
-  const todoListShow = useEffect(() => {
+  useEffect(() => {
     const localTodoList = JSON.parse(localStorage.getItem("todoList"));
     if (localTodoList) {
       dispatch(setTodoList(localTodoList));
@@ -46,6 +46,7 @@ function TodoList() {
       setShowModal(false);
     }
   };
+
   const handleSort = (sortCriteria) => {
     dispatch(sortTodo(sortCriteria));
   };
@@ -70,8 +71,8 @@ function TodoList() {
                 currentTodo ? "Update your task here" : "Enter your task here"
               }
             />
-            <div>
-            {currentTodo ? (
+            <div className="flex justify-between">
+              {currentTodo ? (
                 <>
                   <button
                     onClick={() => {
@@ -112,26 +113,28 @@ function TodoList() {
         </div>
       )}
       <div>
-      {todoList.length === 0 ? (
-        <div>
-          <p>✅ You completed all of the tasks! Feel free to add more</p>
-        </div>
-      ) : (
-        <div>
-        {sortTodoList.map((todo) => (
-          <div
-            key={todo.id}
-          >
-            <div>
-            {todo.task}
-            </div>
+        {todoList.length === 0 ? (
+          <div>
+            <p>✅ You completed all of the tasks! Feel free to add more</p>
           </div>
-        ))
-        }
-      </div>
-        )
-      }
-      <button
+        ) : (
+          <div className="container mx-auto mt-6">
+            {sortTodoList.map((todo) => (
+              <div key={todo.id} className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4">
+                <div>{todo.task}</div>
+                <div>
+                  <button className="bg-blue-500 text-white p-1 rounded-md ml-2">
+                    <TiPencil />
+                  </button>
+                  <button className="bg-blue-500 text-white p-1 rounded-md ml-2">
+                    <BsTrash />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <button
           className="bg-sunsetOrange text-center text-white py-3 px-10 rounded-md"
           onClick={() => {
             setShowModal(true);
@@ -139,8 +142,8 @@ function TodoList() {
         >
           Add Task
         </button>
+      </div>
     </div>
-  </div>
   );
 }
 
