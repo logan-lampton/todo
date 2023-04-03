@@ -22,12 +22,12 @@ function TodoList() {
   console.log(newTask);
   useEffect(() => {
     if (todoList.length > 0) {
-      localStorage.setItem("todoList", JSON.stringify(todoList));
+      localStorage.setItem("todolist", JSON.stringify(todoList));
     }
   }, [todoList]);
 
   useEffect(() => {
-    const localTodoList = JSON.parse(localStorage.getItem("todoList"));
+    const localTodoList = JSON.parse(localStorage.getItem("todolist"));
     if (localTodoList) {
       dispatch(setTodoList(localTodoList));
     }
@@ -45,6 +45,28 @@ function TodoList() {
       setNewTask("");
       setShowModal(false);
     }
+  };
+
+  const handleUpdateTodoList = (id, task) => {
+    if (task.trim().length === 0) {
+      alert("Please enter a task");
+    } else {
+      dispatch(
+        updateTodo({
+          task: task,
+          id: id,
+        })
+      );
+      setShowModal(false);
+    }
+  };
+
+  const handleDelete = (id) => {
+    const updatedTodoList = todoList.filter((todo) => {
+      return todo.id !== id
+    });
+    dispatch(setTodoList(updatedTodoList));
+    localStorage.setItem("todolist", JSON.stringify(updatedTodoList));
   };
 
   const handleSort = (sortCriteria) => {
@@ -76,8 +98,8 @@ function TodoList() {
                 <>
                   <button
                     onClick={() => {
-                      setShowModal(false);
-                      handleUpdateToDoList(currentTodo.id, newTask);
+                      handleClick;
+                      handleUpdateTodoList(currentTodo.id, newTask);
                     }}
                     className="bg-sunsetOrange text-white py-3 px-10 rounded-md"
                   >
@@ -120,13 +142,26 @@ function TodoList() {
         ) : (
           <div className="container mx-auto mt-6">
             {sortTodoList.map((todo) => (
-              <div key={todo.id} className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4">
+              <div
+                key={todo.id}
+                className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4"
+              >
                 <div>{todo.task}</div>
                 <div>
-                  <button className="bg-blue-500 text-white p-1 rounded-md ml-2">
+                  <button
+                    className="bg-blue-500 text-white p-1 rounded-md ml-2"
+                    onClick={() => {
+                      setShowModal(true);
+                      setCurrentTodo(todo);
+                      setNewTask(todo.task);
+                    }}
+                  >
                     <TiPencil />
                   </button>
-                  <button className="bg-blue-500 text-white p-1 rounded-md ml-2">
+                  <button
+                    className="bg-sunsetOrange text-white p-1 rounded-md ml-2"
+                    onClick={() => handleDelete(todo.id)}
+                  >
                     <BsTrash />
                   </button>
                 </div>
