@@ -19,7 +19,6 @@ function TodoList() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
   const [timing, setTiming] = useState("");
-  const [currentTiming, setCurrentTiming] = useState("");
 
   useEffect(() => {
     if (todoList.length > 0) {
@@ -53,8 +52,9 @@ function TodoList() {
         })
       );
       setNewTask("");
-      setCurrentTiming("");
+      setTiming("");
       setShowModal(false);
+      setCurrentTodo(null);
     }
   };
 
@@ -117,7 +117,7 @@ function TodoList() {
               value={timing}
               onChange={(e) => setTiming(e.target.value)}
               placeholder={
-                currentTiming
+                currentTodo
                   ? "Update timing"
                   : "Enter time/date to complete the task"
               }
@@ -197,8 +197,10 @@ function TodoList() {
                 >
                   <div className="flex gap-12">
                     <div>{todo.task}</div>
-                    {!todo.completed &&<div>- {todo.timing}</div>}
-                    {todo.completed && <div> Completed: {new Date().toLocaleDateString()} </div>}
+                    {!todo.completed && <div>- {todo.timing}</div>}
+                    {todo.completed && (
+                      <div> Completed: {new Date().toLocaleDateString()} </div>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -226,6 +228,9 @@ function TodoList() {
         <button
           className="bg-sunsetOrange text-center text-white py-3 px-10 rounded-md"
           onClick={() => {
+            setCurrentTodo(null);
+            setNewTask("");
+            setTiming("");
             setShowModal(true);
           }}
         >

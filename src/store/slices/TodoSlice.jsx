@@ -24,7 +24,7 @@ const TodoSlice = createSlice({
       state.sortCriteria = action.payload;
     },
     updateTodo: (state, action) => {
-      const { id, task, timing } = action.payload;
+      const { task, timing, id } = action.payload;
       const index = state.todoList.findIndex((todo) => todo.id === id);
       state.todoList[index].task = task;
       state.todoList[index].timing = timing;
