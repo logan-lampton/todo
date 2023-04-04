@@ -24,9 +24,10 @@ const TodoSlice = createSlice({
       state.sortCriteria = action.payload;
     },
     updateTodo: (state, action) => {
-      const { id, task } = action.payload;
+      const { id, task, timing } = action.payload;
       const index = state.todoList.findIndex((todo) => todo.id === id);
       state.todoList[index].task = task;
+      state.todoList[index].timing = timing;
     },
     toggleCompleted: (state, action) => {
       const { id } = action.payload;
