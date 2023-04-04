@@ -19,7 +19,6 @@ function TodoList() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
 
-  console.log(newTask);
   useEffect(() => {
     if (todoList.length > 0) {
       localStorage.setItem("todolist", JSON.stringify(todoList));
@@ -63,10 +62,14 @@ function TodoList() {
 
   const handleDelete = (id) => {
     const updatedTodoList = todoList.filter((todo) => {
-      return todo.id !== id
+      return todo.id !== id;
     });
     dispatch(setTodoList(updatedTodoList));
     localStorage.setItem("todolist", JSON.stringify(updatedTodoList));
+  };
+
+  const handleToggleCompleted = (id) => {
+    dispatch(toggleCompleted({ id }));
   };
 
   const handleSort = (sortCriteria) => {
@@ -76,7 +79,7 @@ function TodoList() {
   const sortTodoList = todoList.filter((todo) => {
     if (sortCriteria === "All") return true;
     if (sortCriteria === "Completed" && todo.completed) return true;
-    if (sortCriteria === "Not completed" && !todo.completed) return true;
+    if (sortCriteria === "Not Completed" && !todo.completed) return true;
     return false;
   });
 
@@ -141,12 +144,23 @@ function TodoList() {
           </div>
         ) : (
           <div className="container mx-auto mt-6">
+            <div>
+              <select onChange={e => handleSort(e.target.value)}>
+                <option value="All">All</option>
+                <option value="Completed">Completed</option>
+                <option value="Not Completed">Not Completed</option>
+              </select>
+            </div>
             {sortTodoList.map((todo) => (
               <div
                 key={todo.id}
-                className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4"
+                className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4 text-white"
               >
-                <div>{todo.task}</div>
+                <div 
+                className={`${todo.completed ? "line-through text-greenTeal" : "text-white"}`}
+                onClick={() => handleToggleCompleted(todo.id)}>
+                  {todo.task}
+                </div>
                 <div>
                   <button
                     className="bg-blue-500 text-white p-1 rounded-md ml-2"
