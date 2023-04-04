@@ -89,14 +89,14 @@ function TodoList() {
         <div className="fixed w-full left-0 top-0 h-full bg-transparentBlack flex items-center justify-center">
           <div className="bg-white p-8 rounded-md">
             <input
-              className="border p-2 rounded-md outline-none mb-8"
+              className="border p-2 rounded-md outline-none mb-8 w-full"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               placeholder={
                 currentTodo ? "Update your task here" : "Enter your task here"
               }
             />
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               {currentTodo ? (
                 <>
                   <button
@@ -145,7 +145,10 @@ function TodoList() {
         ) : (
           <div className="container mx-auto mt-6">
             <div className="flex justify-center mb-6">
-              <select onChange={e => handleSort(e.target.value)} className="p-1 outline-none text-sm">
+              <select
+                onChange={(e) => handleSort(e.target.value)}
+                className="p-1 outline-none text-sm"
+              >
                 <option value="All">All</option>
                 <option value="Completed">Completed</option>
                 <option value="Not Completed">Not Completed</option>
@@ -156,9 +159,14 @@ function TodoList() {
                 key={todo.id}
                 className="flex items-center justify-between mb-6 bg-Tangaroa mx-auto w-full md:w-[75%] rounded-md p-4 text-white"
               >
-                <div 
-                className={`${todo.completed ? "line-through text-greenTeal" : "text-white"}`}
-                onClick={() => handleToggleCompleted(todo.id)}>
+                <div
+                  className={`${
+                    todo.completed
+                      ? "line-through text-greenTeal"
+                      : "text-white"
+                  }`}
+                  onClick={() => handleToggleCompleted(todo.id)}
+                >
                   {todo.task}
                 </div>
                 <div>
