@@ -19,7 +19,6 @@ function TodoList() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
   const [timing, setTiming] = useState("");
-  const [newTiming, setNewTiming] = useState("");
   const [currentTiming, setCurrentTiming] = useState("");
 
   useEffect(() => {
@@ -173,7 +172,9 @@ function TodoList() {
           <div className="container mx-auto mt-6">
             <div className="flex justify-center mb-6">
               <select
-                onChange={(e) => handleSort(e.target.value)}
+                onChange={(e) => {
+                  handleSort(e.target.value);
+                }}
                 className="p-1 outline-none text-sm"
               >
                 <option value="All">All</option>
@@ -196,7 +197,8 @@ function TodoList() {
                 >
                   <div className="flex gap-12">
                     <div>{todo.task}</div>
-                    <div>- {todo.timing}</div>
+                    {!todo.completed &&<div>- {todo.timing}</div>}
+                    {todo.completed && <div> Completed: {new Date().toLocaleDateString()} </div>}
                   </div>
                 </div>
                 <div>
