@@ -18,6 +18,9 @@ function TodoList() {
   const [showModal, setShowModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [newTask, setNewTask] = useState("");
+  const [timing, setTiming] = useState("");
+  const [newTiming, setNewTiming] = useState("");
+  const [currentTiming, setCurrentTiming] = useState("");
 
   useEffect(() => {
     if (todoList.length > 0) {
@@ -36,23 +39,37 @@ function TodoList() {
     setShowModal(!showModal);
   };
 
-  const handleAddTodo = (task) => {
+  const handleAddTodo = (task, timing) => {
     if (task.trim().length === 0) {
       alert("Please enter a task");
+    }
+    if (timing.trim().length === 0) {
+      alert("Please enter a time for your task");
     } else {
-      dispatch(addTodo({ task: task, id: Date.now() }));
+      dispatch(
+        addTodo({
+          task: task,
+          timing: timing,
+          id: Date.now(),
+        })
+      );
       setNewTask("");
+      setCurrentTiming("");
       setShowModal(false);
     }
   };
 
-  const handleUpdateTodoList = (id, task) => {
+  const handleUpdateTodoList = (id, task, timing) => {
     if (task.trim().length === 0) {
+      alert("Please enter a task");
+    }
+    if (timing.trim().length === 0) {
       alert("Please enter a task");
     } else {
       dispatch(
         updateTodo({
           task: task,
+          timing: timing,
           id: id,
         })
       );
@@ -96,13 +113,23 @@ function TodoList() {
                 currentTodo ? "Update your task here" : "Enter your task here"
               }
             />
+            <input
+              className="border p-2 rounded-md outline-none mb-8 w-full"
+              value={timing}
+              onChange={(e) => setTiming(e.target.value)}
+              placeholder={
+                currentTiming
+                  ? "Update timing"
+                  : "Enter time/date to complete the task"
+              }
+            />
             <div className="flex justify-between gap-3">
               {currentTodo ? (
                 <>
                   <button
                     onClick={() => {
                       handleClick;
-                      handleUpdateTodoList(currentTodo.id, newTask);
+                      handleUpdateTodoList(currentTodo.id, newTask, timing);
                     }}
                     className="bg-sunsetOrange text-white py-3 px-10 rounded-md"
                   >
@@ -126,7 +153,7 @@ function TodoList() {
                   <button
                     className="bg-sunsetOrange text-white py-3 px-10 rounded-md"
                     onClick={() => {
-                      handleAddTodo(newTask);
+                      handleAddTodo(newTask, timing);
                     }}
                   >
                     Add
@@ -167,7 +194,10 @@ function TodoList() {
                   }`}
                   onClick={() => handleToggleCompleted(todo.id)}
                 >
-                  {todo.task}
+                  <div className="flex gap-12">
+                    <div>{todo.task}</div>
+                    <div>- {todo.timing}</div>
+                  </div>
                 </div>
                 <div>
                   <button
