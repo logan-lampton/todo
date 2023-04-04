@@ -137,15 +137,15 @@ function TodoList() {
           </div>
         </div>
       )}
-      <div>
+      <div className="flex items-center justify-center flex-col">
         {todoList.length === 0 ? (
           <div>
             <p>✅ You completed all of the tasks! Feel free to add more</p>
           </div>
         ) : (
           <div className="container mx-auto mt-6">
-            <div>
-              <select onChange={e => handleSort(e.target.value)}>
+            <div className="flex justify-center mb-6">
+              <select onChange={e => handleSort(e.target.value)} className="p-1 outline-none text-sm">
                 <option value="All">All</option>
                 <option value="Completed">Completed</option>
                 <option value="Not Completed">Not Completed</option>
